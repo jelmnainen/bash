@@ -1,6 +1,7 @@
 #  ---------------------------------------------------------------------------
 #
-#  Description:  This file holds all my BASH configurations and aliases
+#  Description:   This file holds all my BASH configurations and aliases, largely taken from
+#                 NATHANIEL LANDAU, https://natelandau.com/my-mac-osx-bash_profile/
 #
 #  Sections:
 #  0.  Notes
@@ -88,7 +89,7 @@ alias .3='cd ../../../'                     # Go back 3 directory levels
 alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
-alias edit='subl'                           # edit:         Opens any file in sublime editor
+alias edit='atom'                           # edit:         Opens any file in atom editor
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
@@ -122,10 +123,6 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 #   -------------------------------
 
 zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
-alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden files in current dir
-alias make1mb='mkfile 1m ./1MB.dat'         # make1mb:      Creates a file of 1mb size (all zeros)
-alias make5mb='mkfile 5m ./5MB.dat'         # make5mb:      Creates a file of 5mb size (all zeros)
-alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10mb size (all zeros)
 
 #   cdf:  'Cd's to frontmost window of MacOS Finder
 #   ------------------------------------------------------
