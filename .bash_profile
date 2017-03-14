@@ -42,18 +42,18 @@
     export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
 #   Load rbenv
 #   ------------------------------------------------------------
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
+#    export PATH="$HOME/.rbenv/bin:$PATH"
+#    eval "$(rbenv init -)"
 
 #   Load Android home
 #   ------------------------------------------------------------
-    export ANDROID_HOME=/usr/local/opt/android-sdk
+#    export ANDROID_HOME=/usr/local/opt/android-sdk
 
 #   Enable Gradle (Java Build Daemon).
 #   spring-cleanup: disable when not doing Java stuff, it's a background process so it'll just use up memory
 #                   might also want to remove ~/.gradle/gradle.properties to disable daemon for current user
-    export GRADLE_HOME=/usr/local/opt/gradle-2.12/
-    export PATH="$PATH:$GRADLE_HOME/bin"
+#    export GRADLE_HOME=/usr/local/opt/gradle-2.12/
+#    export PATH="$PATH:$GRADLE_HOME/bin"
 
 #   Set Default Editor (change 'Nano' to the editor of your choice)
 #   ------------------------------------------------------------
@@ -76,8 +76,6 @@
 #   2. MAKE TERMINAL BETTER
 #   -----------------------------
 
-alias cp='cp -iv'                           # Preferred 'cp' implementation
-alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
 alias less='less -FSRXc'                    # Preferred 'less' implementation
@@ -85,10 +83,6 @@ cd() { builtin cd "$@"; ll; }               # Always list directory contents upo
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
-alias .3='cd ../../../'                     # Go back 3 directory levels
-alias .4='cd ../../../../'                  # Go back 4 directory levels
-alias .5='cd ../../../../../'               # Go back 5 directory levels
-alias .6='cd ../../../../../../'            # Go back 6 directory levels
 alias edit='atom'                           # edit:         Opens any file in atom editor
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 alias ~="cd ~"                              # ~:            Go Home
