@@ -12,8 +12,7 @@
 #  5.  Process Management
 #  6.  Networking
 #  7.  System Operations & Information
-#  8.  Web Development
-#  9.  Notes
+#  8.  Notes
 #
 #  ---------------------------------------------------------------------------
 
@@ -28,18 +27,36 @@
 
 #   Change Prompt
 #   ------------------------------------------------------------
+#   Make prompt aware of git
+    export GITAWAREPROMPT=~/.bash/git-aware-prompt
+    source "${GITAWAREPROMPT}/main.sh"
 
-    parse_git_branch() {
-        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-    }
+#   Enable git autocompletion
+    if [ -f ~/.bash/.git-completion.bash ]; then
+      . ~/.bash/.git-completion.bash
+    fi
 
-    export PS1="________________________________________________________________________________\n \u \w$(parse_git_branch)\n => "
-    export PS2=" => "
+#   Color prompt
+    txtred='\e[1;31m'
+    txtgreen='\e[1;32m'
+    txtyellow='\e[1;33m'
+    txtblue='\e[1;34m'
+    txtpurple='\e[1;35m'
+    txtcyan='\e[1;36m'
+    txtreset='\e[0m'
+    export PS1="$txtreset---$txtgreen\u@\h $txtblue$(pwd) $txtyellow\$git_branch$txtred\$git_dirty$txtreset\n=> "
+    export PS2="|=>"
 
 #   Set Paths
 #   ------------------------------------------------------------
     export PATH="$PATH:/usr/local/bin/"
     export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
+    export PATH="$PATH:~/apps/terraform/bin" #terraform
+
+# Load pyenv and virtualenv
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+
 #   Load rbenv
 #   ------------------------------------------------------------
 #    export PATH="$HOME/.rbenv/bin:$PATH"
@@ -77,64 +94,26 @@
 #   -----------------------------
 
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
-alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
-alias less='less -FSRXc'                    # Preferred 'less' implementation
+alias ll='ls -FGh'                          # Preferred 'ls' implementation
+alias la='ls -lahGF'                        # Preferred 'ls -la' implementation
 cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
-alias edit='atom'                           # edit:         Opens any file in atom editor
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
 alias which='type -all'                     # which:        Find executables
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
-alias show_options='shopt'                  # Show_options: display bash options settings
-alias fix_stty='stty sane'                  # fix_stty:     Restore terminal settings when screwed up
-alias cic='set completion-ignore-case On'   # cic:          Make tab-completion case-insensitive
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
-alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
-
-#   lr:  Full Recursive Directory Listing
-#   ------------------------------------------
-alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
-
-#   mans:   Search manpage given in agument '1' for term given in argument '2' (case insensitive)
-#           displays paginated result with colored search terms and two lines surrounding each hit.            Example: mans mplayer codec
-#   --------------------------------------------------------------------
-    mans () {
-        man $1 | grep -iC2 --color=always $2 | less
-    }
-
-#   showa: to remind yourself of an alias (given some part of it)
-#   ------------------------------------------------------------
-    showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
 
 #   -------------------------------
 #   3. FILE AND FOLDER MANAGEMENT
 #   -------------------------------
 
 zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
-
-#   cdf:  'Cd's to frontmost window of MacOS Finder
-#   ------------------------------------------------------
-    cdf () {
-        currFolderPath=$( /usr/bin/osascript <<EOT
-            tell application "Finder"
-                try
-            set currFolder to (folder of the front window as alias)
-                on error
-            set currFolder to (path to desktop folder as alias)
-                end try
-                POSIX path of currFolder
-            end tell
-EOT
-        )
-        echo "cd to \"$currFolderPath\""
-        cd "$currFolderPath"
-    }
 
 #   extract:  Extract most know archives with one command
 #   ---------------------------------------------------------
@@ -168,11 +147,6 @@ alias qfind="find . -name "                 # qfind:    Quickly search for file
 ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
 ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
 ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
-
-#   spotlight: Search for a file using MacOS Spotlight's metadata
-#   -----------------------------------------------------------
-    spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
-
 
 #   ---------------------------
 #   5. PROCESS MANAGEMENT
@@ -266,23 +240,7 @@ alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when boo
     alias screensaverDesktop='/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background'
 
 #   ---------------------------------------
-#   8. WEB DEVELOPMENT
-#   ---------------------------------------
-
-alias apacheEdit='sudo edit /etc/httpd/httpd.conf'      # apacheEdit:       Edit httpd.conf
-alias apacheRestart='sudo apachectl graceful'           # apacheRestart:    Restart Apache
-alias editHosts='sudo edit /etc/hosts'                  # editHosts:        Edit /etc/hosts file
-alias herr='tail /var/log/httpd/error_log'              # herr:             Tails HTTP error logs
-alias apacheLogs="less +F /var/log/apache2/error_log"   # Apachelogs:   Shows apache error logs
-httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grabs headers from web page
-
-#   httpDebug:  Download a web page and show info on what took time
-#   -------------------------------------------------------------------
-    httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
-
-
-#   ---------------------------------------
-#   9. REMINDERS & NOTES
+#   8. REMINDERS & NOTES
 #   ---------------------------------------
 
 #   remove_disk: spin down unneeded disk
