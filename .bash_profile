@@ -44,7 +44,7 @@
     txtpurple='\e[1;35m'
     txtcyan='\e[1;36m'
     txtreset='\e[0m'
-    export PS1="$txtreset---$txtgreen\u@\h $txtblue$(pwd) $txtyellow\$git_branch$txtred\$git_dirty$txtreset\n=> "
+    export PS1="$txtreset---$txtgreen\u@\h $txtblue\w $txtyellow\$git_branch$txtred\$git_dirty$txtreset\n=> "
     export PS2="|=>"
 
 #   Set Paths
