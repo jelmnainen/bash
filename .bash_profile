@@ -104,7 +104,8 @@ alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
 alias which='type -all'                     # which:        Find executables
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
-inport () { lsof -n -i4TCP:"$1" | grep LISTEN; }
+inport () { lsof -n -i4TCP:"$1" | grep LISTEN; } # inport:  OSx: find out which process uses port
+terminate() { kill -9 "$1"; }               # kill non-catchably, non-ignorably by PID
 mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
