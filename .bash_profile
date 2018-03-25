@@ -53,6 +53,7 @@
     export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
     export PATH="$PATH:~/apps/terraform/bin" #terraform
 
+
 # Load pyenv and virtualenv
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
@@ -64,7 +65,9 @@
 
 #   Load Android home
 #   ------------------------------------------------------------
-#    export ANDROID_HOME=/usr/local/opt/android-sdk
+   export ANDROID_HOME=~/Library/Android/sdk
+   export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools/bin
+
 
 #   Enable Gradle (Java Build Daemon).
 #   spring-cleanup: disable when not doing Java stuff, it's a background process so it'll just use up memory
@@ -104,11 +107,13 @@ alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
 alias which='type -all'                     # which:        Find executables
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
-inport () { lsof -n -i4TCP:"$1" | grep LISTEN; } # inport:  OSx: find out which process uses port
-terminate() { kill -9 "$1"; }               # kill non-catchably, non-ignorably by PID
-mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
-trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
-ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
+
+inport () { lsof -n -i4TCP:"$1" | grep LISTEN; }              #   OSx: find out which process uses port
+terminate() { kill -9 "$1"; }                                 #   Kill non-catchably, non-ignorably by PID
+movtomp4() { ffmpeg -i "$1" -acodec copy -vcodec copy "$2"; } #   Convert .mov to .mp4 with ffmpeg
+mcd () { mkdir -p "$1" && cd "$1"; }                          #   Makes new Dir and jumps inside
+trash () { command mv "$@" ~/.Trash ; }                       #   Moves a file to the MacOS trash
+ql () { qlmanage -p "$*" >& /dev/null; }                      #   Opens any file in MacOS Quicklook Preview
 
 #   -------------------------------
 #   3. FILE AND FOLDER MANAGEMENT
