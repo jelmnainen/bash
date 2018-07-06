@@ -51,7 +51,11 @@
 #   ------------------------------------------------------------
     export PATH="$PATH:/usr/local/bin/"
     export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
-    export PATH="$PATH:~/apps/terraform/bin" #terraform
+    # Terraform
+    export PATH="$PATH:~/apps/terraform/bin"
+    # Go
+    export PATH="$PATH:/usr/local/go/bin"
+    export GOPATH="$HOME/codebase/go"
 
 
 # Load pyenv and virtualenv
@@ -91,6 +95,10 @@
    export CLICOLOR=1
    export LSCOLORS=ExFxBxDxCxegedabagacad
 
+# Octave
+export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
+
+
 #   -----------------------------
 #   2. MAKE TERMINAL BETTER
 #   -----------------------------
@@ -107,6 +115,9 @@ alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
 alias which='type -all'                     # which:        Find executables
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
+#lock screen
+alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
+
 
 inport () { lsof -n -i4TCP:"$1" | grep LISTEN; }              #   OSx: find out which process uses port
 terminate() { kill -9 "$1"; }                                 #   Kill non-catchably, non-ignorably by PID
